@@ -1,0 +1,11 @@
+before_script:
+  - asdf install
+  - ruby -v
+  - which ruby
+  - gem install bundler --no-document
+  - bundle -v
+  - bundle install --jobs $(nproc)  "${FLAGS[@]}"
+
+rubocop:
+  script:
+    - bundle exec rubocop
