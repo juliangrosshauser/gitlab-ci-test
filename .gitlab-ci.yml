@@ -6,6 +6,21 @@ before_script:
   - bundle -v
   - bundle install --jobs $(nproc)  "${FLAGS[@]}"
 
-rubocop:
-  script:
-    - bundle exec rubocop
+stages:
+  - lint
+  - test
+
+ruby_lint:
+  stage: lint
+  script: bundle exec rake rubocop
+
+ruby_test:
+  stage: test
+  script: bundle exec rake spec
+  coverage: '/\(\d+\.\d+\%\) covered/'
+  artifacts:
+    paths:
+      - junit.xml
+      - coverage/
+    reports:
+      junit: junit.xml
